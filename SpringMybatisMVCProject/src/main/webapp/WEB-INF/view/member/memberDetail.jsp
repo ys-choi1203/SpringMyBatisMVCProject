@@ -5,16 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>memberDetial.jsp</title>
 <script type="text/javascript" 
 	src="http://code.jquery.com/jquery-latest.js" ></script>
 <script type="text/javascript">
 $(function(){
 	$("#modify").click(function(){
-		location.href="memberPw";
+		location.href="../edit/memberModify?userId=${memberCommand.userId}";
 	});
 	$("#memDel").click(function(){
-		location.href="memberUserDel.mem";
+		location.href="<c:url value='/edit/memberUserDel' />";
 	});
 	$("#pwModify").click(function(){
 		location.href="<c:url value='/edit/memberPwForm' />";

@@ -1,5 +1,7 @@
 package controller.member;
 
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +37,19 @@ public class MemberEditController {
 	MemberPasswordService memberPasswordService;
 	@Autowired
 	MemberUserDelService memberUserDelService;
+	
 	@RequestMapping("memberModify")
 	public String memberModify(
-			@RequestParam(value = "userId") String userId, Model model) {
+			@RequestParam(value = "userId") String userId, Model model,
+			HttpServletRequest request) {
 		memberDetailService.memberDetail(userId, model);
+		
+		String contextPath = request.getContextPath();
+		String path = request.getHeader("referer")
+								.substring(request.getHeader("referer")
+												   .indexOf(contextPath)
+												   +contextPath.length());
+		model.addAttribute("urlPath", path);
 		return "member/memberModify";
 	}
 	@RequestMapping("memberModifyPro")
@@ -47,9 +58,10 @@ public class MemberEditController {
 			Model model) {
 		new MemberModifyProVaildator().validate(memberCommand, errors);
 		if(errors.hasErrors()) {
+			model.addAttribute("urlPath", memberCommand.getUrlPath());
 			return "member/memberModify";
 		}
-		String path = memberModifyService.memberUpdate(memberCommand, errors); 
+		String path = memberModifyService.memberUpdate(memberCommand, errors, model); 
 		return path;		
 	}
 	@RequestMapping("findPassword")

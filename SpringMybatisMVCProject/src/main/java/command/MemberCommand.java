@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberCommand {
+	String urlPath;
 	String userId;
 	String userPw;
 	String userPwCon;
