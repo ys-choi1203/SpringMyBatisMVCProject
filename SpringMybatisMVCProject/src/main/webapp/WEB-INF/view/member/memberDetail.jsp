@@ -5,16 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>memberDetail.jsp</title>
 <script type="text/javascript" 
 	src="http://code.jquery.com/jquery-latest.js" ></script>
 <script type="text/javascript">
 $(function(){
 	$("#modify").click(function(){
-		location.href="memberPw";
+		location.href="../edit/memberModify?userId=${memberCommand.userId }";
 	});
 	$("#memDel").click(function(){
-		location.href="memberUserDel.mem";
+		location.href="<c:url value='/edit/memberUserDel' />";
 	});
 	$("#pwModify").click(function(){
 		location.href="<c:url value='/edit/memberPwForm' />";
@@ -39,6 +39,7 @@ $(function(){
 연락처 2 : ${memberCommand.userPh2 }<br />
 등록일 : ${memberCommand.userRegist }<br />
 주소  : ${memberCommand.userAddr }<br />
+취미 : ${memberCommand.interest } <br />
 <input type="button" name="modify" id ="modify" value="수   정" >
 <input type="button" name="pwModify" id ="pwModify" value="비밀번호" >
 <input type="button" value="취  소" 

@@ -9,24 +9,22 @@ import org.springframework.ui.Model;
 
 import model.AuthInfo;
 import model.MemberDTO;
+import model.StartEndPageDTO;
 import repository.MemberRepository;
-
 @Service
 public class MemberUserDelService {
 	@Autowired
 	MemberRepository memberRepository;
 	@Autowired
-	BCryptPasswordEncoder bCryptPasswordEncoder;
+	BCryptPasswordEncoder bcryptPasswordEncoder;
 	
-	public String execute(String userPw, Model model, HttpSession session) {
-		AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+	public String execute(String userPw,Model model,HttpSession session) {
+		AuthInfo authInfo = (AuthInfo)session.getAttribute("authInfo");
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO.setUserId(authInfo.getUserId());
 
 		MemberDTO member = memberRepository.selectByMember(memberDTO);
-		
-		if(bCryptPasswordEncoder.matches(userPw, member.getUserPw())) {
-									// 현재입력된 pw, db에 있는 pw
+		if(bcryptPasswordEncoder.matches(userPw, member.getUserPw())) {
 			memberRepository.memberDelete(authInfo.getUserId());
 			return "redirect:/login/logout";
 		}else {
@@ -34,5 +32,5 @@ public class MemberUserDelService {
 			return "member/userDeletePw";
 		}
 	}
-
 }
+// 

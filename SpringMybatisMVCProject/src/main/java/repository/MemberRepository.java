@@ -14,6 +14,10 @@ public class MemberRepository {
 	private SqlSession sqlSession;
 	private final String namespace="mappers.member.memberMapper";
 	private String statement;
+	public void memberDelete(String userId) {
+		statement = namespace + ".memberDelete";
+		sqlSession.update(statement, userId);
+	}
 	public void passwordUpdate(MemberDTO dto) {
 		statement = namespace + ".passwordUpdate";
 		sqlSession.update(statement, dto);
@@ -45,10 +49,5 @@ public class MemberRepository {
 		}catch(Exception e) {
 			return null;
 		}
-	}
-	
-	public void memberDelete(String userId) {
-		statement = namespace + ".memberDelete";
-		sqlSession.update(statement, userId);
 	}
 }

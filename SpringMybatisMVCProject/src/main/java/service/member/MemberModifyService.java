@@ -3,6 +3,7 @@ package service.member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 
 import command.MemberCommand;
@@ -15,7 +16,8 @@ public class MemberModifyService {
 	BCryptPasswordEncoder bcryptPasswordEncoder;
 	@Autowired
 	MemberRepository memberRepository;
-	public String memberUpdate(MemberCommand memberCommand, Errors errors) {
+	public String memberUpdate(MemberCommand memberCommand, Errors errors
+			, Model model) {
 		MemberDTO dto = new MemberDTO();
 		dto.setUserAddr(memberCommand.getUserAddr());
 		dto.setUserEmail(memberCommand.getUserEmail());
@@ -32,12 +34,15 @@ public class MemberModifyService {
 				bcryptPasswordEncoder.encode(memberCommand.getUserPw()));
 		*/
 		MemberDTO member = memberRepository.selectByMember(dto);
+		
 		if(bcryptPasswordEncoder.matches(
 				memberCommand.getUserPw() , member.getUserPw())) {
 			memberRepository.memberUpdate(dto);
-			return "redirect:/mem/memberInfo/"+memberCommand.getUserId();
+			
+			return "redirect:" + memberCommand.getUrlPath();
 		}else {
 			errors.rejectValue("userPw", "wrong");
+			model.addAttribute("urlPath",memberCommand.getUrlPath());
 			return "member/memberModify";
 		}
 	}

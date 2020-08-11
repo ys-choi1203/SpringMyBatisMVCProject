@@ -35,6 +35,7 @@
   			classpath:spring-beans.xml
   			classpath:spring-member.xml
   			classpath:spring-mail-config.xml
+  			classpath:spring-board.xml
 		</param-value>  		
   	</init-param>
   	<load-on-startup>1</load-on-startup>

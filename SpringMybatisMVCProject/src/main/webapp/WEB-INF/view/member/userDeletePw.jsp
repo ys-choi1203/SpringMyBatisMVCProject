@@ -10,17 +10,12 @@
 <script type="text/javascript">
 $(function(){
 	$("#bts").click(function(){
-		if($("#pw").val() == ""){
-			alert("비밀번호를 입력해 주세요...");
-			$("#pw").focus();
-			return false;
-		}
 		if(confirm("정말 진짜 사실 real 탈퇴?")){
 			$("#frm").submit();
 		}
 	});
 });
-</script>	
+</script>
 </head>
 <body>
 <form action = "memberUserDelPro" method="post" name="frm" id ="frm">

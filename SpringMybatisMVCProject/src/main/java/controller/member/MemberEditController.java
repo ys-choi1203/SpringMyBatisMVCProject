@@ -1,5 +1,6 @@
 package controller.member;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UrlPathHelper;
 
 import command.MemberCommand;
 import model.AuthInfo;
@@ -34,11 +36,19 @@ public class MemberEditController {
 	@Autowired
 	MemberPasswordService memberPasswordService;
 	@Autowired
-	MemberUserDelService memberUserDelService;
+	MemberUserDelService memberUserDelService; 
 	@RequestMapping("memberModify")
 	public String memberModify(
-			@RequestParam(value = "userId") String userId, Model model) {
+			@RequestParam(value = "userId") String userId, Model model,
+			HttpServletRequest request) {
 		memberDetailService.memberDetail(userId, model);
+		String contextPath = request.getContextPath();
+		String path = 
+				request.getHeader("referer")
+				       .substring(request.getHeader("referer")
+				       		          	 .indexOf(contextPath)
+				        		         +contextPath.length());
+		model.addAttribute("urlPath", path);
 		return "member/memberModify";
 	}
 	@RequestMapping("memberModifyPro")
@@ -47,9 +57,11 @@ public class MemberEditController {
 			Model model) {
 		new MemberModifyProVaildator().validate(memberCommand, errors);
 		if(errors.hasErrors()) {
+			model.addAttribute("urlPath",memberCommand.getUrlPath());
 			return "member/memberModify";
 		}
-		String path = memberModifyService.memberUpdate(memberCommand, errors); 
+		String path = memberModifyService.memberUpdate(
+				memberCommand, errors, model); 
 		return path;		
 	}
 	@RequestMapping("findPassword")
@@ -84,19 +96,17 @@ public class MemberEditController {
 		memberPasswordService.execute(memberCommand, model, session);
 		return "member/pwModifyOk";
 	}
-	
 	@RequestMapping("memberUserDel")
 	public String memberUserDel() {
 		return "member/userDeletePw";
 	}
-	
 	@RequestMapping("memberUserDelPro")
-	public String memberUserDelPro(@RequestParam(value = "userPw")
-					String userPw, Model model, HttpSession session) {
+	public String memberUserDelPro(@RequestParam(value = "userPw") 
+				String userPw, Model model,HttpSession session) {
 		String path = memberUserDelService.execute(userPw, model, session);
 		return path;
 	}
-
+	
 }
 /// 스프링의 기본 원칙 : IOC , DI, AOP(공통기능구현)
 /// 스프링부트 : IOC , DI, AutoConfigration , thymleaf
