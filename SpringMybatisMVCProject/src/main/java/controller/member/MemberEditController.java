@@ -15,6 +15,7 @@ import service.member.FindPasswordService;
 import service.member.MemberDetailService;
 import service.member.MemberModifyService;
 import service.member.MemberPasswordService;
+import service.member.MemberUserDelService;
 import service.member.PasswordChangeService;
 import validator.MemberModifyProVaildator;
 import validator.MemberPasswordValidator;
@@ -32,6 +33,8 @@ public class MemberEditController {
 	PasswordChangeService passwordChangeService;
 	@Autowired
 	MemberPasswordService memberPasswordService;
+	@Autowired
+	MemberUserDelService memberUserDelService;
 	@RequestMapping("memberModify")
 	public String memberModify(
 			@RequestParam(value = "userId") String userId, Model model) {
@@ -82,7 +85,18 @@ public class MemberEditController {
 		return "member/pwModifyOk";
 	}
 	
+	@RequestMapping("memberUserDel")
+	public String memberUserDel() {
+		return "member/userDeletePw";
+	}
 	
+	@RequestMapping("memberUserDelPro")
+	public String memberUserDelPro(@RequestParam(value = "userPw")
+					String userPw, Model model, HttpSession session) {
+		String path = memberUserDelService.execute(userPw, model, session);
+		return path;
+	}
+
 }
 /// 스프링의 기본 원칙 : IOC , DI, AOP(공통기능구현)
 /// 스프링부트 : IOC , DI, AutoConfigration , thymleaf

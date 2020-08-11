@@ -5,24 +5,31 @@
        http://www.springframework.org/schema/beans 
        http://www.springframework.org/schema/beans/spring-beans.xsd
        ">
+    <!-- controller -->
 	<bean class="controller.member.MemberController"/>
-	<bean id="memberJoinService" 
-							class="service.member.MemberJoinService" />
-	<bean id ="memberRepository" class="repository.MemberRepository"/>
-	<bean id ="authService"  class="service.member.AuthService" />
-	<bean id="cookieService" class="service.member.CookieService" />
 	<bean class= "controller.member.MemberInfoControler" />
-	<bean id = "memberInfoService"
-		class="service.member.MemberInfoService" />	
-	<bean id="memberDetailService" 
-		class= "service.member.MemberDetailService" />
 	<bean class="controller.member.MemberEditController" />
+	
+	<!-- repository -->
+	<bean id ="memberRepository" class="repository.MemberRepository"/>
+	
+	<!-- service -->
+	<bean id="memberJoinService" 
+		class="service.member.MemberJoinService" />	
+	<bean id ="authService"  class="service.member.AuthService" />	
+	<bean id="cookieService" class="service.member.CookieService" />	
+	<bean id = "memberInfoService"
+		class="service.member.MemberInfoService" />			
+	<bean id="memberDetailService" 
+		class= "service.member.MemberDetailService" />		
 	<bean id = "memberModifyService" 
-		class="service.member.MemberModifyService" />
+		class="service.member.MemberModifyService" />		
 	<bean id ="findPasswordService"
-	 	class="service.member.FindPasswordService" />
+	 	class="service.member.FindPasswordService" />	 	
 	<bean id = "passwordChangeService" 
 		class="service.member.PasswordChangeService" />
 	<bean id ="memberPasswordService"
 		class="service.member.MemberPasswordService" />
+	<bean id = "memberUserDelService"
+		class="service.member.MemberUserDelService" />
 </beans>

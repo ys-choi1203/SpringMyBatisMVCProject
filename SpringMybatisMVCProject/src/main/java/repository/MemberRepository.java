@@ -46,4 +46,9 @@ public class MemberRepository {
 			return null;
 		}
 	}
+	
+	public void memberDelete(String userId) {
+		statement = namespace + ".memberDelete";
+		sqlSession.update(statement, userId);
+	}
 }
