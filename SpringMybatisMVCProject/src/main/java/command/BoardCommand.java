@@ -13,4 +13,5 @@ public class BoardCommand {
 	private String boardPass;
 	private String boardSubject;
 	private String boardContent;
+	private Integer boardNum;
 }

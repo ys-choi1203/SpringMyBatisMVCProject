@@ -8,9 +8,68 @@
 		BOARD_SUBJECT, BOARD_CONTENT, BOARD_DATE, IP_ADDR, READ_COUNT
 	</sql>
 	
-	<insert id="insertBoard" parameterType="model.BoardDTO">
-		insert info board(<include refid="basecolumn" />)
+	<insert id="insertBoard" parameterType="board">
+		insert into board(<include refid="basecolumn" />)
 		values(NUM_SEQ.nextval, #{userId}, #{boardName}, #{boardPass},
 				#{boardSubject}, #{boardContent}, sysdate, #{ipAddr}, 0)
 	</insert>
+	
+	<resultMap type="board" id="resultBoard">
+		<constructor>
+			<!-- idArg가 primary -->
+			<idArg column="board_num" javaType="int" />
+			<idArg column="user_id" javaType="String" />
+			<arg column="board_name" javaType="String"/>
+			<arg column="board_pass" javaType="String"/>
+			<arg column="board_subject" javaType="String"/>
+			<arg column="board_content" javaType="String"/>
+			<arg column="board_date" javaType="java.sql.Timestamp"/>
+			<arg column="ip_addr" javaType="String"/>
+			<arg column="read_count" javaType="int"/>
+		</constructor>
+	</resultMap>
+	
+	<select id="getBoardList" parameterType="board" resultMap="resultBoard">
+		select * 
+		from(select rownum rn, <include refid="basecolumn" />
+			from(select <include refid="basecolumn" />
+				from board
+				<where>
+					<if test="boardNum != null">
+						board_num = #{boardNum}
+					</if>
+				</where>
+				order by board_num desc))
+		<where>
+			<if test="startEndPageDTO != null">
+				rn between #{startEndPageDTO.startPage}
+					and #{startEndPageDTO.endPage}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getBoardCount" resultType="int">
+		select count(*) from board
+	</select>
+	
+	<update id="boardUpdate" parameterType="board">
+		update board
+		<trim prefix="set" suffixOverrides=",">
+			<if test="boardSubject != null">
+				board_subject = #{boardSubject},
+			</if>
+			<if test="boardContent == null">
+				board_content = null,
+			</if>
+			<if test="boardContent != null">
+				board_content = #{boardContent},
+			</if>
+		</trim>
+		where board_num = #{boardNum}
+	</update>
+	
+	<delete id="boardDelete">
+		delete from board where board_num = #{boardNum}
+	</delete>
+	
 </mapper>
