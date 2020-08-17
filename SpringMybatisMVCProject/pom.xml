@@ -86,6 +86,7 @@
     	<version>12.1.0.2</version>
 	</dependency>
 	<!-- 파일 객체 -->
+	<!--multipartFile을 사용하기 위해서 존재 -->
 	<dependency>
 	    <groupId>commons-io</groupId>
 	    <artifactId>commons-io</artifactId>

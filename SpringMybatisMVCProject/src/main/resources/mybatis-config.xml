@@ -11,5 +11,6 @@
 	<typeAliases>
 		<typeAlias type="model.MemberDTO" alias="mem"/>
 		<typeAlias type="model.BoardDTO" alias="board"/>
+		<typeAlias type="model.LibraryBoardDTO" alias="lib"/>
 	</typeAliases>  
 </configuration>
